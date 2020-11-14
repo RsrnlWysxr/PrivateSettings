@@ -34,8 +34,9 @@
             "antialiasingMode": "cleartype",
             "cursorShape": "filledBox",
             "useAcrylic": true,
-            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/background.gif",
-            "backgroundImageOpacity": 0.9,
+            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/background.png",
+            "backgroundImageOpacity": 0.5,
+            "acrylicOpacity": 0.99,
             "scrollbarState": "hidden",
             "colorScheme": "One Half Dark"
         },
