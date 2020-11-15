@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/liyihang/.config/nvim/plugged/cosme.vim/colors'
+let g:netrw_dirhist_9='/home/liyihang/.config/nvim/plugged/cosme.vim'
+let g:netrw_dirhist_8='/home/liyihang/test/python_test/package1'
+let g:netrw_dirhist_7='/home/liyihang/.config/nvim'
+let g:netrw_dirhist_6='/home/liyihang/test/cpp_test'
+let g:netrw_dirhist_5='/home/liyihang/test'
+let g:netrw_dirhist_4='/home/liyihang/workspace-branch/src/Server/AI/BTContext'
+let g:netrw_dirhist_3='/home/liyihang/.config/nvim'
+let g:netrw_dirhist_2='/home/liyihang/workspace'
+let g:netrw_dirhist_1='/home/liyihang/.config/nvim'
