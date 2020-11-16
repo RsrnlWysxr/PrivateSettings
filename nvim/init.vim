@@ -14,7 +14,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'wellle/targets.vim'
 
 " 查找
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
