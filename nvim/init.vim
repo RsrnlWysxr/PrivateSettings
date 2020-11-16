@@ -3,22 +3,27 @@ call plug#begin()
 " 插件平台
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" buff
+Plug 'qpkorr/vim-bufkill'
+
 " 文本操作
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'wellle/targets.vim'
 
-" 模糊查找
+" 查找
 Plug 'Yggdroot/LeaderF'
-
-" 快速移动
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'rhysd/clever-f.vim'
+" Plug 'junegunn/vim-peekaboo'
 
 " session保存
-Plug 'farmergreg/vim-lastplace'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 
 " 显示优化
 Plug 'vim-airline/vim-airline'
@@ -27,16 +32,17 @@ Plug 'luochen1990/rainbow'
 Plug 'junegunn/limelight.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'sheerun/vim-polyglot'
-Plug 'MattesGroeger/vim-bookmarks'
+Plug 'kshenoy/vim-signature'
+Plug 'TaDaa/vimade'
 
 " 主题
 Plug 'arcticicestudio/nord-vim'
-Plug 'joshdick/onedark.vim'
-Plug 'beikome/cosme.vim'
+Plug 'junegunn/seoul256.vim'
 " Plug 'itchyny/vim-cursorword'  " Be replace by coc-highlight
 call plug#end()
 
-colorscheme cosme
+set termguicolors
+colorscheme nord
 
 " Coc-extension
 let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-python', 'coc-highlight']
@@ -48,12 +54,27 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-python', 'coc-h
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " autocmd bufenter * if (winnr("$")) == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
 
+" airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 1
+let g:airline#extensions#tabline#show_tabs = 0
+
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+
 " easymotion
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1  " 1 match 1 and ! 
 
 " rainbow
 let g:rainbow_active=1
+
+" clever-f
+let g:clever_f_across_no_line = 1
+let g:clever_f_smart_case = 1
+let g:clever_f_not_overwrites_standard_mappings = 1
+nmap f <Plug>(clever-f-f)
+nmap F <Plug>(clever-f-F)
 
 " indentLine
 let g:indent_guides_enable_on_vim_startup=1
@@ -83,10 +104,13 @@ let g:limelight_priority = -1
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " smooth-scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 4)<cr>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 4)<cr>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<cr>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<cr>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 5)<cr>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 5)<cr>
+
+" session
+let g:session_directory = '~/vim-session'
+let g:session_autosave = "yes"
+let g:session_default_to_last = 1
 
 "
 " Abbrev
@@ -108,10 +132,12 @@ map <A-1> :CocCommand explorer<cr>
 " updatetime
 set updatetime=200
 
-" 是设置为双字款显示, 确保完整显示
+" 显示
 set ambiwidth=double
 set linespace=8
-set termguicolors
+set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
+		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+		  \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " Tab
 set tabstop=8
@@ -136,19 +162,18 @@ set smartcase
 set nowrapscan
 
 " 自动重新读入
-" set autoread
+set autoread
 
 " 复制粘贴
 " set paste
 set clipboard+=unnamed
 
 " 自动切换到文件当前目录
-set autochdir
+" set autochdir
 
 " 缩进 智能对齐方式
 set autoindent
 set smartindent
-
 
 " 代码折叠
 set foldmethod=syntax
@@ -170,6 +195,10 @@ set so=7
 " 持久化undo历史
 set undofile
 set undodir=~/.vim/undodir
+
+" buff
+set hidden
+set switchbuf=usetab
 
 " Autocmd
 " " Learn
@@ -229,8 +258,6 @@ inoremap <C-l> <esc>la
 nnoremap ' `
 nnoremap ` '
 
-" TextObj Operator
-
 " yank and paste
 nmap Y y$
 nmap P v$"1dp
@@ -238,10 +265,19 @@ vnoremap p "1dP"
 
 
 " Tab/Window
-nnoremap K gt
-nnoremap J gT
+nmap J <Plug>AirlineSelectPrevTab
+nmap K <Plug>AirlineSelectNextTab
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
 nnoremap <Tab> <C-w>w
-nnoremap q ZZ
+nnoremap q :BD<cr>
 
 " 取消高亮搜索显示
 nnoremap <BackSpace> :noh<Cr>
@@ -254,8 +290,15 @@ nnoremap <BackSpace> :noh<Cr>
 nmap s <Plug>(easymotion-overwin-f2)
 
 " fuzzy search
-nmap / <Plug>(incsearch-fuzzy-/)
+nmap ? <Plug>(incsearch-fuzzy-/)
 
 " commentary
 nmap <leader>cc gcc
 vmap <leader>cc gc
+
+
+" goto
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
