@@ -39,7 +39,6 @@ Plug 'sheerun/vim-polyglot'
 " Plug 'junegunn/limelight.vim'
 
 " 主题
-Plug 'arcticicestudio/nord-vim'
 Plug 'sainnhe/gruvbox-material'
 " Plug 'junegunn/seoul256.vim'
 call plug#end()
@@ -106,7 +105,7 @@ let g:indentLine_enabled = 1
 " let g:limelight_priority = -1
 
 " coc-highlight
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"vautocmd CursorHold * silent call CocActionAsync('highlight')
 
 " smooth-scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 7)<cr>
@@ -119,6 +118,7 @@ let g:session_default_to_last = 1
 
 " LeaderF
 let g:Lf_ShowDevIcons = 0
+
 
 "
 " Abbrev
@@ -251,6 +251,12 @@ let mapleader = " "
 "
 
 "
+" 补全
+" 
+let complete=".,w,b,u,t,i,d,t"
+
+
+"
 " Terminal
 "
 autocmd TermOpen * set modifiable
@@ -259,11 +265,16 @@ highligh TermCursor guifg=#7DAEA3 guibg=None
 let g:floaterm_winblend=1
 let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
 let g:floaterm_autoinsert=v:false
+function! ExecutShellCmdAndAutoClose(cmd)
+	exe "FloatermNew --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 " . expand("cd &&") . expand(a:cmd)
+endfunction
+
 highlight Floaterm guibg=None
 highlight FloatermBorder guibg=None guifg=#7DAEA3
-nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=2 cd<cr>
+nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 cd<cr>
 nnoremap <silent> <leader>tc :FloatermKill<cr>
 nnoremap <silent> <leader>tt :FloatermToggle<cr>
+
 
 " undo & redo
 nnoremap U <C-r>
