@@ -34,7 +34,11 @@
             "antialiasingMode": "cleartype",
             "cursorShape": "filledBox",
             "useAcrylic": true,
+<<<<<<< HEAD
+            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/dim-background.png",
+=======
             "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/dark-background.png",
+>>>>>>> dad345b4455523831d696ec13104943b391cd576
             "backgroundImageOpacity": 0.99,
             "acrylicOpacity": 0.99,
             "scrollbarState": "hidden",
@@ -85,11 +89,11 @@
                 "action": "copy",
                 "singleLine": false
             },
-            "keys": "ctrl+c"
+            "keys": "ctrl+alt+y"
         },
         {
             "command": "paste",
-            "keys": "ctrl+v"
+            "keys": "ctrl+alt+p"
         },
         {
             "command": "openSettings",
@@ -190,7 +194,7 @@
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "keys": "ctrl+alt+s"
+            "keys": "ctrl+alt+v"
         },
         {
             "command": "closePane",
