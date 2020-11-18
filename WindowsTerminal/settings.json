@@ -30,12 +30,12 @@
             // Put settings here that you want to apply to all profiles.
             "fontFace": "Fira Code",
             "fontSize": 11,
-            "fontWeight": "light",
+            "fontWeight": "extra-light",
             "antialiasingMode": "cleartype",
             "cursorShape": "filledBox",
             "useAcrylic": true,
-            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/background.png",
-            "backgroundImageOpacity": 0.5,
+            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/dark-background.png",
+            "backgroundImageOpacity": 0.99,
             "acrylicOpacity": 0.99,
             "scrollbarState": "hidden",
             "colorScheme": "One Half Dark"
