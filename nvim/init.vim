@@ -40,7 +40,6 @@ Plug 'sheerun/vim-polyglot'
 
 " 主题
 Plug 'sainnhe/gruvbox-material'
-" Plug 'junegunn/seoul256.vim'
 call plug#end()
 
 set termguicolors
@@ -105,7 +104,7 @@ let g:indentLine_enabled = 1
 " let g:limelight_priority = -1
 
 " coc-highlight
-"vautocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " smooth-scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 7)<cr>
