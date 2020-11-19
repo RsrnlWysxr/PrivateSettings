@@ -6,6 +6,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " terminal
 Plug 'voldikss/vim-floaterm'
 
+" debug
+Plug 'puremourning/vimspector'
+
 " buff
 Plug 'qpkorr/vim-bufkill'
 
@@ -28,6 +31,7 @@ Plug 'rhysd/clever-f.vim'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
+
 " 显示优化
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
@@ -48,7 +52,7 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-python']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-python', 'coc-clangd']
 
 
 " Plug Setup
@@ -56,6 +60,9 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'co
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " autocmd bufenter * if (winnr("$")) == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
+
+" debug
+let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -136,8 +143,12 @@ map <A-1> :CocCommand explorer<cr>
 " Set
 "
 
-" updatetime
-set updatetime=200
+" coc example config
+set updatetime=300
+set nobackup
+set nowritebackup
+set shortmess+=c
+
 
 " 显示
 set ambiwidth=double
@@ -393,7 +404,7 @@ let g:Lf_Gtagslabel = 'native-pygments'
 
 noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
