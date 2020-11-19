@@ -62,7 +62,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 0
 
-let g:airline#extensions#tabline#buffer_idx_mode = 0
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " easymotion
@@ -264,7 +264,7 @@ highligh TermCursor guifg=#7DAEA3 guibg=None
 let g:floaterm_winblend=1
 let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
 let g:floaterm_autoinsert=v:false
-function! ExecutShellCmdAndAutoClose(cmd)
+function! ExecuteShellCmdAndAutoClose(cmd)
 	exe "FloatermNew --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 " . expand("cd &&") . expand(a:cmd)
 endfunction
 
@@ -273,6 +273,12 @@ highlight FloatermBorder guibg=None guifg=#7DAEA3
 nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 cd<cr>
 nnoremap <silent> <leader>tc :FloatermKill<cr>
 nnoremap <silent> <leader>tt :FloatermToggle<cr>
+
+"
+" g108 server
+"
+nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd workspace && sh kill_serv.sh && sh run_serv.sh")<cr>
+nnoremap <silent> <leader>sl :call executeshellcmdandautoclose("cd workspace && sh rl_serv.sh")<cr>
 
 
 " undo & redo
@@ -302,13 +308,14 @@ nnoremap ` '
 
 " yank and paste
 nmap Y y$
-nmap P v$"1dp
+nmap P v$dp
 vnoremap p "1dP"
 
 
 " Tab/Window
 nmap J <Plug>AirlineSelectPrevTab
 nmap K <Plug>AirlineSelectNextTab
+
 
 function! WinBufSwap()
   let thiswin = winnr()
@@ -335,7 +342,8 @@ function! NewVs()
 endfunction
 " nnoremap <leader>ws :80vs<cr><C-w>l
 nnoremap <leader>wk :call NewVs()<Cr>
-set winfixwidth
+set winfixwidth 
+
 
 
 " 取消高亮搜索显示
