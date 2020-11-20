@@ -39,6 +39,7 @@ Plug 'luochen1990/rainbow'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'kshenoy/vim-signature'
 Plug 'sheerun/vim-polyglot'
+Plug 'mhinz/vim-signify'
 " Plug 'TaDaa/vimade'
 " Plug 'junegunn/limelight.vim'
 
@@ -62,7 +63,7 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'co
 " autocmd bufenter * if (winnr("$")) == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
 
 " debug
-let g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
@@ -112,6 +113,7 @@ let g:indentLine_enabled = 1
 
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd BufRead * highlight CurrentWord guibg=#05354E
 
 " smooth-scroll
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 7)<cr>
@@ -142,11 +144,11 @@ map <A-1> :CocCommand explorer<cr>
 "
 " Set
 "
-
-" coc example config
-set updatetime=300
+set updatetime=100
 set nobackup
 set nowritebackup
+
+" coc example config
 set shortmess+=c
 
 
@@ -160,6 +162,7 @@ set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
 " 行号
 set number
 set relativenumber
+set signcolumn=yes
 
 " 语法高亮
 syntax enable
@@ -194,11 +197,14 @@ set tabstop=4
 set list
 set listchars=tab:\ \ \| 
 
-autocmd BufRead,BufRead *.py 
+autocmd BufRead *.py 
 	  \ set tabstop=4 | 
 	  \ set softtabstop=4 |
 	  \ set shiftwidth=4 |
 	  \ set noexpandtab
+
+autocmd BufNewFile,BufRead *.py
+	  \ set foldmethod=indent
 
 
 " 代码折叠
@@ -352,7 +358,7 @@ function! NewVs()
 	exe (winwidth(0) * 1/3) . " vs" . "|" . "wincmd w"
 endfunction
 " nnoremap <leader>ws :80vs<cr><C-w>l
-nnoremap <leader>wk :call NewVs()<Cr>
+nnoremap <silent> <leader>wk :call NewVs()<Cr>
 set winfixwidth 
 
 
@@ -392,6 +398,8 @@ let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_ShortcutF = "<leader>fo"
 
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_Gtagslabel = 'native-pygments'
 noremap <leader>bo :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>lo :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>oo :<C-U>Leaderf! rg --recall<CR>
@@ -399,8 +407,6 @@ noremap <leader>oo :<C-U>Leaderf! rg --recall<CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
 " search visually selected text literally
 xnoremap <leader>f :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
-let g:Lf_GtagsAutoGenerate = 1
-let g:Lf_Gtagslabel = 'native-pygments'
 
 noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
@@ -408,3 +414,6 @@ noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
+" debug
+"
+let g:vimspector_enable_mappings = 'HUMAN'
