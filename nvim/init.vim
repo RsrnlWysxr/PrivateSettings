@@ -144,7 +144,7 @@ map <A-1> :CocCommand explorer<cr>
 "
 " Set
 "
-set updatetime=100
+set updatetime=200
 set nobackup
 set nowritebackup
 
@@ -414,6 +414,40 @@ noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand
 noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
-" debug
+" 
+" Debug
 "
 let g:vimspector_enable_mappings = 'HUMAN'
+
+"
+" Svn
+"
+nmap <leader>vr :SignifyHunkUndo<cr>
+nmap <leader>vl :SignifyHunkDiff<cr>
+nmap <leader>vn <plug>(signify-next-hunk)
+nmap <leader>vp <plug>(signify-prev-hunk)
+
+function! s:sy_stats_wrapper()
+  let [added, modified, removed] = sy#repo#get_stats()
+  let symbols = ['+', '-', '~']
+  let stats = [added, removed, modified]  " reorder
+  let statline = ''
+
+  for i in range(3)
+    if stats[i] > 0
+      let statline .= printf('%s%s ', symbols[i], stats[i])
+    endif
+  endfor
+
+  if !empty(statline)
+    let statline = printf('[%s]', statline[:-2])
+  endif
+
+  return statline
+endfunction
+
+function! MyStatusline()
+  return ' %f '. s:sy_stats_wrapper()
+endfunction
+
+set statusline+=%!MyStatusline()
