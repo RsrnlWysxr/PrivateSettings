@@ -3,7 +3,7 @@ call plug#begin()
 " 插件平台
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" terminal
+" terminal / tmux
 Plug 'voldikss/vim-floaterm'
 
 " debug
@@ -203,13 +203,14 @@ autocmd BufRead *.py
 	  \ set shiftwidth=4 |
 	  \ set noexpandtab
 
-autocmd BufNewFile,BufRead *.py
-	  \ set foldmethod=indent
+" autocmd BufNewFile,BufRead *.py
+" 	  \ set foldmethod=indent
+" 	  \ set foldlevel=2
 
 
 " 代码折叠
-set foldmethod=syntax
-set foldmethod=marker
+" set foldmethod=syntax
+" set foldmethod=marker
 
 " 显示匹配的括号
 " set showmatch
@@ -364,7 +365,7 @@ set winfixwidth
 
 
 " 取消高亮搜索显示
-nnoremap <BackSpace> :noh<Cr>
+nnoremap <silent> <BackSpace> :noh<Cr>
 
 "
 " easymotion
@@ -396,7 +397,13 @@ nmap <silent> <leader>rn <Plug>(coc-rename)
 "
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewCode = 1
 let g:Lf_ShortcutF = "<leader>fo"
+
+let g:Lf_WildIgnore = {
+		\ 'dir': ['.svn','.git','.hg', 'Client', 'Launcher', 'UTools', 'Lib'],
+		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+		\}
 
 let g:Lf_GtagsAutoGenerate = 1
 let g:Lf_Gtagslabel = 'native-pygments'
@@ -422,7 +429,7 @@ let g:vimspector_enable_mappings = 'HUMAN'
 "
 " Svn
 "
-nmap <leader>vr :SignifyHunkUndo<cr>
+nmap <leader>vr :w<cr>:SignifyHunkUndo<cr>
 nmap <leader>vl :SignifyHunkDiff<cr>
 nmap <leader>vn <plug>(signify-next-hunk)
 nmap <leader>vp <plug>(signify-prev-hunk)
