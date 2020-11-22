@@ -282,13 +282,17 @@ highligh TermCursor guifg=#7DAEA3 guibg=None
 let g:floaterm_winblend=1
 let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
 let g:floaterm_autoinsert=v:false
+let g:floaterm_width = 0.4
+let g:floaterm_height = 0.4
+let g:floaterm_wintype = 'floating'
+let g:floaterm_position = 'bottomright'
 function! ExecuteShellCmdAndAutoClose(cmd)
-	exe "FloatermNew --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 " . expand("cd &&") . expand(a:cmd)
+	exe "FloatermNew --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 " . expand("cd &&") . expand(a:cmd)
 endfunction
 
 highlight Floaterm guibg=None
 highlight FloatermBorder guibg=None guifg=#7DAEA3
-nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.33 --wintype=floating --name=nullptr --position=bottomleft --autoclose=1 cd<cr>
+nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 cd<cr>
 nnoremap <silent> <leader>tc :FloatermKill<cr>
 nnoremap <silent> <leader>tt :FloatermToggle<cr>
 
@@ -356,7 +360,7 @@ nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 nnoremap Q ZZ
 function! NewVs()
-	exe (winwidth(0) * 1/3) . " vs" . "|" . "wincmd w"
+	exe (winwidth(0) * 3/5) . " vs"
 endfunction
 " nnoremap <leader>ws :80vs<cr><C-w>l
 nnoremap <silent> <leader>wk :call NewVs()<Cr>
@@ -393,20 +397,31 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
 
 "
-" LeaderF = open
+" LeaderF
 "
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewCode = 1
-let g:Lf_ShortcutF = "<leader>fo"
 
+let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_WildIgnore = {
-		\ 'dir': ['.svn','.git','.hg', 'Client', 'Launcher', 'UTools', 'Lib'],
+		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
 		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
 		\}
+let g:Lf_ShortcutF = "<leader>fo"
 
 let g:Lf_GtagsAutoGenerate = 1
-let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_Gtagslabel = 'pygments'
+let g:Lf_GtagsSource = 2
+let g:Lf_GtagsfilesCmd = {
+		\ '.git': 'git ls-files --recurse-submodules',
+		\ '.hg': 'hg files',
+		\ 'default': 'rg --no-messages --files'
+		\}
 noremap <leader>bo :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>lo :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>oo :<C-U>Leaderf! rg --recall<CR>
