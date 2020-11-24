@@ -1,7 +1,7 @@
 " Plug Manage
 call plug#begin()
 " 插件平台
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim'
 
 " terminal / tmux
 Plug 'voldikss/vim-floaterm'
@@ -20,7 +20,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'wellle/targets.vim'
 
 " 查找
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'Yggdroot/LeaderF'
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
@@ -161,7 +161,7 @@ set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
 
 " 行号
 set number
-set relativenumber
+" set relativenumber
 set signcolumn=yes
 
 " 语法高亮
@@ -217,7 +217,6 @@ autocmd BufRead *.py
 
 " 高亮所在行
 set cursorline
-" highlight CursorLine guibg=#
 
 " 拼写检查
 " set spell
@@ -400,13 +399,10 @@ nmap <silent> <leader>rn <Plug>(coc-rename)
 " LeaderF
 "
 let g:Lf_HideHelp = 1
-let g:Lf_UseCache = 0
 let g:Lf_UseVersionControlTool = 0
-let g:Lf_IgnoreCurrentBufferName = 1
 " popup mode
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
-
 let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_WildIgnore = {
 		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
@@ -415,26 +411,26 @@ let g:Lf_WildIgnore = {
 let g:Lf_ShortcutF = "<leader>fo"
 
 let g:Lf_GtagsAutoGenerate = 1
-let g:Lf_Gtagslabel = 'pygments'
-let g:Lf_GtagsSource = 2
-let g:Lf_GtagsfilesCmd = {
-		\ '.git': 'git ls-files --recurse-submodules',
-		\ '.hg': 'hg files',
-		\ 'default': 'rg --no-messages --files'
-		\}
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+" let g:Lf_GtagsSource = 2
+" let g:Lf_GtagsfilesCmd = {
+" 		\ '.git': 'git ls-files --recurse-submodules',
+" 		\ '.hg': 'hg files',
+" 		\ 'default': 'rg --no-messages --files'
+" 		\}
 noremap <leader>bo :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>lo :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <leader>oo :<C-U>Leaderf! rg --recall<CR>
-" noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR><CR>
+noremap <leader>oo :<C-U><C-R>=printf("Leaderf! rg --recall")<CR><CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
 " search visually selected text literally
-xnoremap <leader>f :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
+xnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
 
-noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap gg :<C-U><C-R>=printf("Leaderf gtags")<CR><CR>
+noremap gj :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
 " noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
-noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
-noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " 
 " Debug
