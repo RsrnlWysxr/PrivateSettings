@@ -53,8 +53,7 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-python', 'coc-clangd']
-
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-python', 'coc-clangd', 'coc-bookmark']
 
 " Plug Setup
 " " nerdtreae
@@ -70,7 +69,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 0
 
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " easymotion
@@ -394,34 +393,40 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <leader>rn <Plug>(coc-rename)
+nmap <silent> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
+
+let g:coc_enable_locationlist = 0
+autocmd User CocLocationsChange CocList --auto-preview --normal location
+
 
 "
 " LeaderF
 "
 let g:Lf_HideHelp = 1
-let g:Lf_UseVersionControlTool = 0
-" popup mode
 let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewCode = 1
+let g:Lf_PreviewResult = {
+		\ 'File': 0,
+		\ 'Buffer': 1,
+		\ 'Mru': 0,
+		\ 'Tag': 0,
+		\ 'BufTag': 1,
+		\ 'Function': 1,
+		\ 'Line': 0,
+		\ 'Colorscheme': 0,
+		\ 'Rg': 1,
+		\ 'Gtags': 1
+		\}
 let g:Lf_PreviewInPopup = 1
 let g:Lf_DefaultMode = 'NameOnly'
-let g:Lf_WildIgnore = {
-		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
-		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-		\}
 let g:Lf_ShortcutF = "<leader>fo"
 
-let g:Lf_GtagsAutoGenerate = 1
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
-" let g:Lf_GtagsSource = 2
-" let g:Lf_GtagsfilesCmd = {
-" 		\ '.git': 'git ls-files --recurse-submodules',
-" 		\ '.hg': 'hg files',
-" 		\ 'default': 'rg --no-messages --files'
-" 		\}
-noremap <leader>bo :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
-noremap <leader>lo :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
-noremap <leader>oo :<C-U><C-R>=printf("Leaderf! rg --recall")<CR><CR>
+
+noremap <leader>bl :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>ll :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+noremap <leader>jj :<C-U><C-R>=printf("Leaderf! rg --recall")<CR><CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
 " search visually selected text literally
 xnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
@@ -431,6 +436,12 @@ noremap gk :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
 " noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+
+"
+" bookmark
+"
+nnoremap mm :CocCommand bookmark.annotate<CR>
+nnoremap <leader>ml :<C-U><C-R>=printf("CocList --auto-preview bookmark")<CR><CR>
 
 " 
 " Debug
@@ -469,3 +480,8 @@ function! MyStatusline()
 endfunction
 
 set statusline+=%!MyStatusline()
+
+if filereadable(".vimrc.local")
+	source .vimrc.local
+endif
+

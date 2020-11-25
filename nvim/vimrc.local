@@ -1,0 +1,12 @@
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_GtagsSource = 2
+let g:Lf_GtagsfilesCmd = {
+		\ '.git': 'git ls-files --recurse-submodules',
+		\ '.hg': 'hg files',
+		\ 'default': "rg --files | rg '^(Server|Universal)'"
+		\}
+let g:Lf_WildIgnore = {
+		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
+		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+		\}
