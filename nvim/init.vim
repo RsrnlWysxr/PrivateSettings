@@ -397,6 +397,8 @@ autocmd User CocLocationsChange CocList --auto-preview --normal location
 "
 let g:Lf_HideHelp = 1
 let g:Lf_WindowPosition = 'popup'
+let g:Lf_PopupPosition = [15, 0]
+let g:Lf_PopupPreviewPosition = 'bottom'
 let g:Lf_PreviewCode = 1
 let g:Lf_PreviewResult = {
 		\ 'File': 0,
@@ -405,14 +407,14 @@ let g:Lf_PreviewResult = {
 		\ 'Tag': 0,
 		\ 'BufTag': 1,
 		\ 'Function': 1,
-		\ 'Line': 0,
+		\ 'Line': 1,
 		\ 'Colorscheme': 0,
 		\ 'Rg': 1,
 		\ 'Gtags': 1
 		\}
 let g:Lf_PreviewInPopup = 1
 let g:Lf_DefaultMode = 'NameOnly'
-let g:Lf_ShortcutF = "<leader>fo"
+let g:Lf_ShortcutF = "<leader>fl"
 
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
