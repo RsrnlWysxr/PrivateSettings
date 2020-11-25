@@ -294,13 +294,6 @@ nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.4 --wintype=fl
 nnoremap <silent> <leader>tc :FloatermKill<cr>
 nnoremap <silent> <leader>tt :FloatermToggle<cr>
 
-"
-" g108 server
-"
-nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd workspace && sh kill_serv.sh && sh run_serv.sh")<cr>
-nnoremap <silent> <leader>sl :call executeshellcmdandautoclose("cd workspace && sh rl_serv.sh")<cr>
-
-
 " undo & redo
 nnoremap U <C-r>
 

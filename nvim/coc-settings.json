@@ -1,0 +1,5 @@
+{
+  "coc.preferences.jumpCommand": "drop",
+  "python.jediEnabled": false,
+  "python.autoComplete.extraPaths": ["./Server", "./Universal"]
+}

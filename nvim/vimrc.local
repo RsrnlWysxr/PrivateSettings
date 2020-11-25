@@ -10,3 +10,10 @@ let g:Lf_WildIgnore = {
 		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
 		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
 		\}
+
+"
+" g108 server
+"
+nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd workspace && sh kill_serv.sh && sh run_serv.sh")<cr>
+nnoremap <silent> <leader>sl :call executeshellcmdandautoclose("cd workspace && sh rl_serv.sh")<cr>
+
