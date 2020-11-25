@@ -342,7 +342,21 @@ function! WinBufSwap()
       \ "buffer ". lastbuf
 endfunction
 
+function! WinBufMove()
+  let thiswin = winnr()
+  let thisbuf = bufnr("%")
+  let lastwin = winnr("#")
+  let lastbuf = bufnr("#")
+
+  exec  lastwin . " wincmd w" ."|".
+      \ "buffer ". thisbuf ."|".
+      \ thiswin ." wincmd w" ."|".
+      \ "buffer ". lastbuf . "|".
+	  \ "wincmd w"
+endfunction
+
 nnoremap <silent> R :call WinBufSwap()<cr>
+nnoremap <silent> <leader><tab> :call WinBufMove()<cr>
 nnoremap <Tab> <C-w>w
 nnoremap q :BD<cr>
 nnoremap <A-h> <C-w>h
