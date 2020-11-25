@@ -426,8 +426,8 @@ noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR
 " search visually selected text literally
 xnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
 
-noremap gg :<C-U><C-R>=printf("Leaderf gtags")<CR><CR>
-noremap gj :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
+noremap gj :<C-U><C-R>=printf("Leaderf gtags")<CR><CR>
+noremap gk :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
 " noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
