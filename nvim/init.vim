@@ -1,3 +1,5 @@
+let g:polyglot_disabled = ['autoindent', 'python-indent']
+
 " Plug Manage
 call plug#begin()
 " 插件平台
@@ -47,13 +49,15 @@ Plug 'mhinz/vim-signify'
 Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
+set nocompatible
+
 set termguicolors
 set background=dark
 let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-python', 'coc-clangd', 'coc-bookmark']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark']
 
 " Plug Setup
 " " nerdtreae
@@ -65,6 +69,11 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'co
 let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_highlighting_cache = 1
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 0
@@ -89,6 +98,8 @@ nmap F <Plug>(clever-f-F)
 
 " indentLine
 let g:indentLine_enabled = 1
+
+filetype indent off
 
 
 " limelight
@@ -138,7 +149,7 @@ iabbrev sefl self
 "
 " GUI
 "
-map <A-1> :CocCommand explorer<cr>
+" map <A-1> :CocCommand explorer<cr>
 
 "
 " Set
@@ -164,8 +175,8 @@ set number
 set signcolumn=yes
 
 " 语法高亮
-syntax enable
-syntax on
+" syntax enable
+" syntax on
 
 " 保存
 set autowrite
@@ -189,7 +200,7 @@ set clipboard+=unnamed
 " 缩进 智能对齐方式
 set noexpandtab  " 不自动替换tab为space
 set smartindent
-set autoindent
+" set autoindent
 set softtabstop=4
 set shiftwidth=4
 set tabstop=4
@@ -200,7 +211,8 @@ autocmd BufRead *.py
 	  \ set tabstop=4 | 
 	  \ set softtabstop=4 |
 	  \ set shiftwidth=4 |
-	  \ set noexpandtab
+	  \ set noexpandtab |
+	  \ set noautoindent
 
 " autocmd BufNewFile,BufRead *.py
 " 	  \ set foldmethod=indent
@@ -300,9 +312,6 @@ nnoremap U <C-r>
 " 热更vim
 nnoremap <Leader>rv :source $MYVIMRC<Cr>
 
-" 搜索
-" nnoremap <Leader>g :silent execute "grep! -R " . shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
-
 " 基础键位
 inoremap jk <Esc>
 tnoremap jk <C-\><C-n>
@@ -326,8 +335,8 @@ vnoremap p "1dP"
 
 
 " Tab/Window
-nmap J <Plug>AirlineSelectPrevTab
-nmap K <Plug>AirlineSelectNextTab
+nmap <silent> J :bp<CR>
+nmap <silent> K :bn<CR>
 
 
 function! WinBufSwap()
@@ -376,6 +385,7 @@ set winfixwidth
 " 取消高亮搜索显示
 nnoremap <silent> <BackSpace> :noh<Cr>
 
+
 "
 " easymotion
 "
@@ -413,18 +423,18 @@ let g:Lf_HideHelp = 1
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PopupPosition = [15, 0]
 let g:Lf_PopupPreviewPosition = 'bottom'
-let g:Lf_PreviewCode = 1
+let g:Lf_PreviewCode = 0
 let g:Lf_PreviewResult = {
 		\ 'File': 0,
 		\ 'Buffer': 1,
 		\ 'Mru': 0,
 		\ 'Tag': 0,
-		\ 'BufTag': 1,
-		\ 'Function': 1,
-		\ 'Line': 1,
+		\ 'BufTag': 0,
+		\ 'Function': 0,
+		\ 'Line': 0,
 		\ 'Colorscheme': 0,
-		\ 'Rg': 1,
-		\ 'Gtags': 1
+		\ 'Rg': 0,
+		\ 'Gtags': 0
 		\}
 let g:Lf_PreviewInPopup = 1
 let g:Lf_DefaultMode = 'NameOnly'
@@ -455,7 +465,16 @@ nnoremap <leader>ml :<C-U><C-R>=printf("CocList --auto-preview bookmark")<CR><CR
 " 
 " Debug
 "
-let g:vimspector_enable_mappings = 'HUMAN'
+nnoremap <silent> <leader>pp :call vimspector#Continue()<CR>
+nnoremap <silent> <leader>pc :call vimspector#Reset()<CR>
+nmap <A-1> :call vimspector#Continue()<CR>
+nmap <A-2> :call vimspector#StepOver()<CR>
+nmap <A-3> :call vimspector#StepInto()<CR>
+nmap <A-4> :call vimspector#StepOut()<CR>
+nmap <A-5> :call vimspector#RunToCursor()<CR>
+nnoremap <silent> <leader>ps :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <silent> <leader>pd :call vimspector#ToggleBreakpoint(
+nnoremap <leader>pw :VimspectorWatch 
 
 "
 " Svn
@@ -493,4 +512,3 @@ set statusline+=%!MyStatusline()
 if filereadable(".vimrc.local")
 	source .vimrc.local
 endif
-
