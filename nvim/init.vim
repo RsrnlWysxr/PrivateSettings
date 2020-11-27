@@ -1,5 +1,4 @@
-let g:polyglot_disabled = ['autoindent', 'python-indent']
-
+let g:polyglot_disabled = ['autoindent', 'sensible']
 " Plug Manage
 call plug#begin()
 " 插件平台
@@ -22,7 +21,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'wellle/targets.vim'
 
 " 查找
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
@@ -57,7 +56,7 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python']
 
 " Plug Setup
 " " nerdtreae
@@ -69,16 +68,16 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'co
 let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
+let g:airline#extensions#keymap#enabled = 0
 let g:airline#extensions#wordcount#enabled = 0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_highlighting_cache = 1
+
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_type = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 0
-
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " easymotion
@@ -98,8 +97,6 @@ nmap F <Plug>(clever-f-F)
 
 " indentLine
 let g:indentLine_enabled = 1
-
-filetype indent off
 
 
 " limelight
@@ -126,8 +123,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd BufRead * highlight CurrentWord guibg=#05354E
 
 " smooth-scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 7)<cr>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 7)<cr>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
 
 " session
 let g:session_directory = '~/vim-session'
@@ -154,7 +151,7 @@ iabbrev sefl self
 "
 " Set
 "
-set updatetime=200
+set updatetime=100
 set nobackup
 set nowritebackup
 
@@ -175,8 +172,8 @@ set number
 set signcolumn=yes
 
 " 语法高亮
-" syntax enable
-" syntax on
+syntax enable
+syntax on
 
 " 保存
 set autowrite
@@ -200,7 +197,7 @@ set clipboard+=unnamed
 " 缩进 智能对齐方式
 set noexpandtab  " 不自动替换tab为space
 set smartindent
-" set autoindent
+set autoindent
 set softtabstop=4
 set shiftwidth=4
 set tabstop=4
@@ -208,11 +205,12 @@ set list
 set listchars=tab:\ \ \| 
 
 autocmd BufRead *.py 
-	  \ set tabstop=4 | 
-	  \ set softtabstop=4 |
-	  \ set shiftwidth=4 |
-	  \ set noexpandtab |
-	  \ set noautoindent
+	  \ setlocal tabstop=4 | 
+	  \ setlocal softtabstop=4 |
+	  \ setlocal shiftwidth=4 |
+	  \ setlocal noexpandtab |
+	  \ setlocal noautoindent |
+	  \ setlocal nosmartindent 
 
 " autocmd BufNewFile,BufRead *.py
 " 	  \ set foldmethod=indent
@@ -439,6 +437,7 @@ let g:Lf_PreviewResult = {
 let g:Lf_PreviewInPopup = 1
 let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_ShortcutF = "<leader>fl"
+let g:Lf_UseCache = 0
 
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
@@ -484,31 +483,9 @@ nmap <leader>vl :SignifyHunkDiff<cr>
 nmap <leader>vn <plug>(signify-next-hunk)
 nmap <leader>vp <plug>(signify-prev-hunk)
 
-function! s:sy_stats_wrapper()
-  let [added, modified, removed] = sy#repo#get_stats()
-  let symbols = ['+', '-', '~']
-  let stats = [added, removed, modified]  " reorder
-  let statline = ''
-
-  for i in range(3)
-    if stats[i] > 0
-      let statline .= printf('%s%s ', symbols[i], stats[i])
-    endif
-  endfor
-
-  if !empty(statline)
-    let statline = printf('[%s]', statline[:-2])
-  endif
-
-  return statline
-endfunction
-
-function! MyStatusline()
-  return ' %f '. s:sy_stats_wrapper()
-endfunction
-
-set statusline+=%!MyStatusline()
-
+"
+" Spiecal
+"
 if filereadable(".vimrc.local")
 	source .vimrc.local
 endif
