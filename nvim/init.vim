@@ -328,8 +328,6 @@ nnoremap ` '
 
 " yank and paste
 nmap Y y$
-nmap P v$dp
-vnoremap p "1dP"
 
 
 " Tab/Window
@@ -340,23 +338,32 @@ nmap <silent> K :bn<CR>
 function! WinBufSwap()
   let thiswin = winnr()
   let thisbuf = bufnr("%")
-  let lastwin = winnr("#")
-  let lastbuf = winbufnr(lastwin)
+  let thisline = line(".")
 
-  exec  lastwin . " wincmd w" ."|".
-      \ "buffer ". thisbuf ."|".
+  let lastwin = winnr("#")
+  exec lastwin . " wincmd w"
+
+  let lastbuf = bufnr("%") 
+  let lastline = line(".") 
+
+  exec  "buffer ". thisbuf ."|".
+      \ ": " . thisline ."|".
       \ thiswin ." wincmd w" ."|".
-      \ "buffer ". lastbuf
+      \ "buffer ". lastbuf ."|".
+      \ ": " . lastline
+
 endfunction
 
 function! WinBufMove()
   let thiswin = winnr()
   let thisbuf = bufnr("%")
+  let thisline = line(".")
   let lastwin = winnr("#")
   let lastbuf = bufnr("#")
 
   exec  lastwin . " wincmd w" ."|".
       \ "buffer ". thisbuf ."|".
+      \ ": " . thisline ."|".
       \ thiswin ." wincmd w" ."|".
       \ "buffer ". lastbuf . "|".
 	  \ "wincmd w"
