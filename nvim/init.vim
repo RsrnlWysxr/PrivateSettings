@@ -339,18 +339,21 @@ function! WinBufSwap()
   let thiswin = winnr()
   let thisbuf = bufnr("%")
   let thisline = line(".")
+  let thiscol = col(".")
 
   let lastwin = winnr("#")
   exec lastwin . " wincmd w"
 
   let lastbuf = bufnr("%") 
   let lastline = line(".") 
+  let lastcol = col(".")
 
-  exec  "buffer ". thisbuf ."|".
-      \ ": " . thisline ."|".
-      \ thiswin ." wincmd w" ."|".
-      \ "buffer ". lastbuf ."|".
-      \ ": " . lastline
+  exec  "buffer ". thisbuf
+  call cursor(thisline, thiscol)
+
+  exec  thiswin ." wincmd w" ."|".
+      \ "buffer ". lastbuf
+  call cursor(lastline, lastcol)
 
 endfunction
 
