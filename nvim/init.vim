@@ -3,8 +3,9 @@ let g:polyglot_disabled = ['autoindent', 'sensible']
 call plug#begin()
 " 插件平台
 Plug 'neoclide/coc.nvim'
+Plug 'relastle/vim-nayvy'
 
-" terminal / tmux
+" terminal
 Plug 'voldikss/vim-floaterm'
 
 " debug
@@ -56,7 +57,7 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python', 'coc-snippets']
 
 " Plug Setup
 " " nerdtreae
@@ -123,8 +124,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd BufRead * highlight CurrentWord guibg=#05354E
 
 " smooth-scroll
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
+noremap <silent><nowait> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
+noremap <silent><nowait> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
 
 " session
 let g:session_directory = '~/vim-session'
@@ -211,6 +212,7 @@ autocmd BufRead *.py
 	  \ setlocal noexpandtab |
 	  \ setlocal noautoindent |
 	  \ setlocal nosmartindent 
+
 
 " autocmd BufNewFile,BufRead *.py
 " 	  \ set foldmethod=indent
@@ -300,9 +302,9 @@ endfunction
 
 highlight Floaterm guibg=None
 highlight FloatermBorder guibg=None guifg=#7DAEA3
-nnoremap <silent> <leader>to :FloatermNew! --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 cd<cr>
-nnoremap <silent> <leader>tc :FloatermKill<cr>
-nnoremap <silent> <leader>tt :FloatermToggle<cr>
+nnoremap <silent><nowait> <leader>to :FloatermNew! --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 cd<cr>
+nnoremap <silent><nowait> <leader>tc :FloatermKill<cr>
+nnoremap <silent><nowait> <leader>tt :FloatermToggle<cr>
 
 " undo & redo
 nnoremap U <C-r>
@@ -331,8 +333,8 @@ nmap Y y$
 
 
 " Tab/Window
-nmap <silent> J :bp<CR>
-nmap <silent> K :bn<CR>
+nmap <silent><nowait> J :bp<CR>
+nmap <silent><nowait> K :bn<CR>
 
 
 function! WinBufSwap()
@@ -359,21 +361,30 @@ endfunction
 
 function! WinBufMove()
   let thiswin = winnr()
+  let lastwin = winnr("#")
+
   let thisbuf = bufnr("%")
   let thisline = line(".")
-  let lastwin = winnr("#")
-  let lastbuf = bufnr("#")
+  let thiscol = col(".")
 
-  exec  lastwin . " wincmd w" ."|".
-      \ "buffer ". thisbuf ."|".
-      \ ": " . thisline ."|".
-      \ thiswin ." wincmd w" ."|".
-      \ "buffer ". lastbuf . "|".
-	  \ "wincmd w"
+  let lastbuf = bufnr("#") 
+
+  exec lastwin . " wincmd w"
+
+  exec  "buffer ". thisbuf
+  call cursor(thisline, thiscol)
+
+  if lastbuf != -1
+	  exec  thiswin ." wincmd w" ."|".
+		  \ "buffer ". lastbuf
+  endif
+
+  exec lastwin . " wincmd w"
+
 endfunction
 
-nnoremap <silent> R :call WinBufSwap()<cr>
-nnoremap <silent> <leader><tab> :call WinBufMove()<cr>
+nnoremap <silent><nowait> R :call WinBufSwap()<cr>
+nnoremap <silent><nowait> <leader><tab> :call WinBufMove()<cr>
 nnoremap <Tab> <C-w>w
 nnoremap q :BD<cr>
 nnoremap <A-h> <C-w>h
@@ -385,13 +396,13 @@ function! NewVs()
 	exe (winwidth(0) * 3/5) . " vs"
 endfunction
 " nnoremap <leader>ws :80vs<cr><C-w>l
-nnoremap <silent> <leader>wk :call NewVs()<Cr>
+nnoremap <silent><nowait> <leader>wk :call NewVs()<Cr>
 set winfixwidth 
 
 
 
 " 取消高亮搜索显示
-nnoremap <silent> <BackSpace> :noh<Cr>
+nnoremap <silent><nowait> <BackSpace> :noh<Cr>
 
 
 "
@@ -413,12 +424,27 @@ vmap <leader>cc gc
 "
 " goto
 "
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <leader>rn <Plug>(coc-rename)
-nmap <silent> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
+nmap <silent><nowait> gd <Plug>(coc-definition)
+nmap <silent><nowait> gy <Plug>(coc-type-definition)
+nmap <silent><nowait> gi <Plug>(coc-implementation)
+nmap <silent><nowait> gr <Plug>(coc-references)
+
+"
+" coc
+"
+"
+nmap <silent><nowait> <leader>rn <Plug>(coc-rename)
+nmap <silent><nowait> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
+nmap <silent><nowait> <leader>fc <Plug>(coc-fix-current)
+
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 let g:coc_enable_locationlist = 0
 autocmd User CocLocationsChange CocList --auto-preview --normal location
@@ -462,6 +488,8 @@ xnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<
 noremap gj :<C-U><C-R>=printf("Leaderf gtags")<CR><CR>
 noremap gk :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
 " noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+nnoremap gD :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+nnoremap gR :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
@@ -474,15 +502,15 @@ nnoremap <leader>ml :<C-U><C-R>=printf("CocList --auto-preview bookmark")<CR><CR
 " 
 " Debug
 "
-nnoremap <silent> <leader>pp :call vimspector#Continue()<CR>
-nnoremap <silent> <leader>pc :call vimspector#Reset()<CR>
+nnoremap <silent><nowait> <leader>pp :call vimspector#Continue()<CR>
+nnoremap <silent><nowait> <leader>pc :call vimspector#Reset()<CR>
 nmap <A-1> :call vimspector#Continue()<CR>
 nmap <A-2> :call vimspector#StepOver()<CR>
 nmap <A-3> :call vimspector#StepInto()<CR>
 nmap <A-4> :call vimspector#StepOut()<CR>
 nmap <A-5> :call vimspector#RunToCursor()<CR>
-nnoremap <silent> <leader>ps :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <silent> <leader>pd :call vimspector#ToggleBreakpoint(
+nnoremap <silent><nowait> <leader>ps :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <silent><nowait> <leader>pd :call vimspector#ToggleBreakpoint(
 nnoremap <leader>pw :VimspectorWatch 
 
 "
@@ -498,4 +526,13 @@ nmap <leader>vp <plug>(signify-prev-hunk)
 "
 if filereadable(".vimrc.local")
 	source .vimrc.local
+endif
+
+"
+" nayvy
+"
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
