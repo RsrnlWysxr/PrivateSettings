@@ -3,7 +3,6 @@ let g:polyglot_disabled = ['autoindent', 'sensible']
 call plug#begin()
 " 插件平台
 Plug 'neoclide/coc.nvim'
-Plug 'relastle/vim-nayvy'
 
 " terminal
 Plug 'voldikss/vim-floaterm'
@@ -169,7 +168,7 @@ set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
 
 " 行号
 set number
-" set relativenumber
+set relativenumber
 set signcolumn=yes
 
 " 语法高亮
@@ -385,7 +384,6 @@ endfunction
 
 nnoremap <silent><nowait> R :call WinBufSwap()<cr>
 nnoremap <silent><nowait> <leader><tab> :call WinBufMove()<cr>
-nnoremap <Tab> <C-w>w
 nnoremap q :BD<cr>
 nnoremap <A-h> <C-w>h
 nnoremap <A-j> <C-w>j
@@ -435,7 +433,7 @@ nmap <silent><nowait> gr <Plug>(coc-references)
 "
 nmap <silent><nowait> <leader>rn <Plug>(coc-rename)
 nmap <silent><nowait> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
-nmap <silent><nowait> <leader>fc <Plug>(coc-fix-current)
+nmap <silent><nowait> <leader>cf <Plug>(coc-fix-current)
 
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -526,13 +524,4 @@ nmap <leader>vp <plug>(signify-prev-hunk)
 "
 if filereadable(".vimrc.local")
 	source .vimrc.local
-endif
-
-"
-" nayvy
-"
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
