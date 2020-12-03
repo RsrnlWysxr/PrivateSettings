@@ -1,0 +1,22 @@
+{
+    "configurations": {
+		"g108-server":{
+			"adapter": "multi-session",
+			"configuration": {
+				"name": "<main> Attach",
+				"type": "python",
+				"request": "attach"
+			},
+			"breakpoints": {
+				"exception": {
+					"caught": "Y",
+					"uncaught": "Y"
+				}
+			},
+			"remote": {
+				"host": "127.0.0.1",
+				"port": 15595
+			}
+		}
+    }
+}

@@ -1,0 +1,18 @@
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_GtagsAutoGenerate = 1
+let g:Lf_GtagsSource = 2
+let g:Lf_GtagsfilesCmd = {
+		\ 'default': "rg --files | rg '^(Server|Universal).*(.py)$' | rg -v '/(Data|Lib|PyCharmEditor)/'"
+		\}
+
+let g:Lf_WildIgnore = {
+		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
+		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+		\}
+
+"
+" g108 server
+"
+nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd workspace-branch && sh kill_serv.sh && sh run_serv.sh")<cr>
+nnoremap <silent> <leader>sl :call ExecuteShellCmdAndAutoClose("cd workspace-branch && sh rl_serv.sh")<cr>
+
