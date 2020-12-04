@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/liyihang/workspace/src'
+let g:netrw_dirhist_6='/home/liyihang/workspace/src/Server'
+let g:netrw_dirhist_5='/home/liyihang/workspace/src'
+let g:netrw_dirhist_4='/home/liyihang/bin'
+let g:netrw_dirhist_3='/home/liyihang'
+let g:netrw_dirhist_2='/home/liyihang/bin'
+let g:netrw_dirhist_1='/home/liyihang/.config/nvim/plugged/indentLine/after/plugin'
+let g:netrw_dirhist_0='/home/liyihang/.config/nvim/plugged/indentLine/after'
+let g:netrw_dirhist_9='/home/liyihang/.config/nvim/plugged/indentLine'
+let g:netrw_dirhist_8='/home/liyihang/.config/nvim/plugged'

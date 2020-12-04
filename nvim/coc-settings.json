@@ -1,0 +1,29 @@
+{
+  "coc.preferences.jumpCommand": "drop",
+  "coc.preferences.formatOnType": true,
+  "coc.preferences.formatOnSaveFiletypes":[
+	  "python"
+  ],
+
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [
+	"--ignore=W191,E501,F811,E402,E722,W503,F401"
+  ],
+
+
+  "python.jediEnabled": false,
+  "python.autoComplete.extraPaths": [
+	  "./Server", 
+	  "./Universal"
+  ],
+
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "~/bin/black",
+  "python.formatting.blackArgs":[
+	  "--fast",
+	  "-l",
+	  "120",
+	  "--force-exclude",
+	  "src/Server/Core|src/Server/Data|src/Server/Debug|src/Server/Hotfix|src/Server/InspectorSDK|src/Server/Lib|src/Server/ServerCommom|src/Server/Tools|src/Univeral/SunshineSDK",
+  ]
+}
