@@ -398,11 +398,12 @@ set winfixwidth
 " 取消高亮搜索显示
 nnoremap <silent><nowait> <BackSpace> :noh<Cr>
 
-
 "
 " easymotion
 "
-nmap s <Plug>(easymotion-overwin-f2)
+nmap s <Plug>(easymotion-overwin-w)
+xmap s <Plug>(easymotion-e)
+omap s <Plug>(easymotion-e)
 
 " 
 " fuzzy search
