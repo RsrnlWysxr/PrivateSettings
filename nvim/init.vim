@@ -7,6 +7,13 @@ Plug 'neoclide/coc.nvim'
 " terminal
 Plug 'voldikss/vim-floaterm'
 
+" tmux
+Plug 'christoomey/vim-tmux-navigator'
+
+" vcs
+Plug 'juneedahamed/vc.vim'
+Plug 'mhinz/vim-signify'
+
 " debug
 Plug 'puremourning/vimspector'
 
@@ -26,7 +33,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'rhysd/clever-f.vim'
-" Plug 'junegunn/vim-peekaboo'
 
 " session保存
 Plug 'xolox/vim-misc'
@@ -39,10 +45,9 @@ Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'kshenoy/vim-signature'
+
+" 语法高亮
 Plug 'sheerun/vim-polyglot'
-Plug 'mhinz/vim-signify'
-" Plug 'TaDaa/vimade'
-" Plug 'junegunn/limelight.vim'
 
 " 主题
 Plug 'sainnhe/gruvbox-material'
@@ -56,26 +61,23 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python', 'coc-snippets']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python', 'coc-snippets', 'coc-yank']
 
+
+"
 " Plug Setup
-" " nerdtreae
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" autocmd bufenter * if (winnr("$")) == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
+"
 
 " debug
 let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
-let g:airline#extensions#keymap#enabled = 0
-let g:airline#extensions#wordcount#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
+let g:airline_extensions = ['tabline', 'hunks']
 let g:airline_highlighting_cache = 1
 
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#formatter = 'unique_tail'
@@ -83,7 +85,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 " easymotion
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1  " 1 match 1 and ! 
-
 
 " rainbow
 let g:rainbow_active=1
@@ -97,26 +98,6 @@ nmap F <Plug>(clever-f-F)
 
 " indentLine
 let g:indentLine_enabled = 1
-
-
-" limelight
-" Color name (:help cterm-colors) or ANSI code
-" let g:limelight_conceal_ctermfg = 'gray'
-" let g:limelight_conceal_ctermfg = 240
-" let g:limelight_conceal_guifg = 'DarkGray'
-" let g:limelight_conceal_guifg = '#777777'
-" let g:limelight_default_coefficient = 0.7
-" Number of preceding/following paragraphs to include (default: 0)
-" let g:limelight_paragraph_span = 0
-" Beginning/end of paragraph
-"   When there's no empty line between the paragraphs
-"   and each paragraph starts with indentation
-" let g:limelight_bop = '^\s'
-" let g:limelight_eop = '\ze\n^\s'
-"
-" Highlighting priority (default: 10)
-"   Set it to -1 not to overrule hlsearch
-" let g:limelight_priority = -1
 
 " coc-highlight
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -134,6 +115,8 @@ let g:session_default_to_last = 1
 " LeaderF
 let g:Lf_ShowDevIcons = 0
 
+" python-indent
+let g:python_pep8_indent_searchpair_timeout = 20
 
 "
 " Abbrev
@@ -290,7 +273,6 @@ highligh TermCursor guifg=#7DAEA3 guibg=None
 " float term
 let g:floaterm_winblend=1
 let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
-let g:floaterm_autoinsert=v:false
 let g:floaterm_width = 0.4
 let g:floaterm_height = 0.4
 let g:floaterm_wintype = 'floating'
@@ -382,13 +364,27 @@ function! WinBufMove()
 
 endfunction
 
+
+" 
+" snippets
+"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+let g:coc_snippet_next = '<tab>'
+
+
 nnoremap <silent><nowait> R :call WinBufSwap()<cr>
 nnoremap <silent><nowait> <leader><tab> :call WinBufMove()<cr>
+" nnoremap <Tab> <C-w>w
 nnoremap q :BD<cr>
-nnoremap <A-h> <C-w>h
-nnoremap <A-j> <C-w>j
-nnoremap <A-k> <C-w>k
-nnoremap <A-l> <C-w>l
 nnoremap Q ZZ
 function! NewVs()
 	exe (winwidth(0) * 3/5) . " vs"
@@ -434,6 +430,7 @@ nmap <silent><nowait> gr <Plug>(coc-references)
 nmap <silent><nowait> <leader>rn <Plug>(coc-rename)
 nmap <silent><nowait> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
 nmap <silent><nowait> <leader>cf <Plug>(coc-fix-current)
+nmap <silent> <leader>yl  :<C-u>CocList -A --normal yank<cr>
 
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -458,7 +455,7 @@ let g:Lf_PopupPreviewPosition = 'bottom'
 let g:Lf_PreviewCode = 0
 let g:Lf_PreviewResult = {
 		\ 'File': 0,
-		\ 'Buffer': 1,
+		\ 'Buffer': 0,
 		\ 'Mru': 0,
 		\ 'Tag': 0,
 		\ 'BufTag': 0,
@@ -518,6 +515,15 @@ nmap <leader>vr :w<cr>:SignifyHunkUndo<cr>
 nmap <leader>vl :SignifyHunkDiff<cr>
 nmap <leader>vn <plug>(signify-next-hunk)
 nmap <leader>vp <plug>(signify-prev-hunk)
+
+"
+" tmux
+"   
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <A-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <A-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <A-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 
 "
 " Spiecal
