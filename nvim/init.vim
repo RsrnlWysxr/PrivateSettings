@@ -72,7 +72,7 @@ let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'co
 let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
-let g:airline_extensions = ['tabline', 'hunks']
+let g:airline_extensions = ['tabline', 'hunks', 'coc']
 let g:airline_highlighting_cache = 1
 
 let g:airline#extensions#tabline#enabled = 1
@@ -95,6 +95,14 @@ let g:clever_f_smart_case = 1
 let g:clever_f_not_overwrites_standard_mappings = 1
 nmap f <Plug>(clever-f-f)
 nmap F <Plug>(clever-f-F)
+
+" multi_cursor
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_start_word_key      = '<A-n>'
+let g:multi_cursor_next_key            = '<A-n>'
+let g:multi_cursor_prev_key            = '<A-p>'
+let g:multi_cursor_skip_key            = '<A-x>'
+let g:multi_cursor_quit_key            = '<Esc>'
 
 " indentLine
 let g:indentLine_enabled = 1
@@ -145,9 +153,9 @@ set shortmess+=c
 " 显示
 set ambiwidth=double
 set linespace=8
-set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
-		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-		  \,sm:block-blinkwait175-blinkoff150-blinkon175
+" set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
+" 		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+" 		  \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 " 行号
 set number
@@ -271,6 +279,7 @@ let complete=".,w,b,u,t,i,d,t"
 autocmd TermOpen * set modifiable
 highligh TermCursor guifg=#7DAEA3 guibg=None
 " float term
+let g:floaterm_title = ""
 let g:floaterm_winblend=1
 let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
 let g:floaterm_width = 0.4
@@ -368,17 +377,10 @@ endfunction
 " 
 " snippets
 "
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-let g:coc_snippet_next = '<tab>'
+vmap <C-j> <Plug>(coc-snippets-select)
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 
 nnoremap <silent><nowait> R :call WinBufSwap()<cr>
@@ -391,7 +393,7 @@ function! NewVs()
 endfunction
 " nnoremap <leader>ws :80vs<cr><C-w>l
 nnoremap <silent><nowait> <leader>wk :call NewVs()<Cr>
-set winfixwidth 
+" set winfixwidth 
 
 
 
@@ -401,9 +403,9 @@ nnoremap <silent><nowait> <BackSpace> :noh<Cr>
 "
 " easymotion
 "
-nmap s <Plug>(easymotion-overwin-w)
-xmap s <Plug>(easymotion-e)
-omap s <Plug>(easymotion-e)
+nmap s <Plug>(easymotion-overwin-f2)
+xmap s <plug>(easymotion-f)
+omap s <Plug>(easymotion-f)
 
 " 
 " fuzzy search
