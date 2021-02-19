@@ -394,8 +394,11 @@ VimPlug()
 
 	RelocateFD $log_file
 
-	echo "mkdir $nvim_config_dir..."
-	mkdir $nvim_config_dir
+	if [ ! -d $nvim_config_dir ]
+	then
+		echo "mkdir $nvim_config_dir..."
+		mkdir $nvim_config_dir
+	fi
 
 	echo "download and install plug manger..."
 	sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
