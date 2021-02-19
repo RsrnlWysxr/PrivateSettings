@@ -170,7 +170,7 @@ WriteToBashrc()
 		touch ~/tmp/.bashrc
 	fi
 
-	echo -e "$1\n" >> ~/tmp/.bashrc
+	echo -e "$1\n" >> $HOME_DIR/.bashrc
 }
 
 
