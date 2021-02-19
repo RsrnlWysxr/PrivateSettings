@@ -29,6 +29,7 @@ CheckSysEnv()
 	git --version 1>/dev/null
 	tar --version 1>/dev/null
 	python3.7 --version 1>/dev/null
+	pythom3.7 -m pip --version 1>dev/null
 	
 
 	if [ ! -e ~/.bashrc ]
