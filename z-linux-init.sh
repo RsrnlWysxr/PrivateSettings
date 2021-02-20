@@ -322,7 +322,7 @@ Lemonade()
 	local log_file="$work_dir/lemonade.log"
 	local lemo_config_file="$CONFIG_DIR/lemonade.toml"
 
-	local url="https://github.com/hanxi/lemonade/releases/download/v2.0.1-pre/lemonade_linux_amd64.tar.gz"
+	local url="https://github.com/hanxi/lemonade/releases/download/v2.0.0-pre/lemonade_linux_amd64.tar.gz"
 
 	mkdir $work_dir
 	cd $work_dir
