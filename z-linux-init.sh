@@ -334,7 +334,8 @@ Lemonade()
 	tar -zxvf "lemonade_linux_amd64.tar.gz"
 
 	echo "install..."
-	CpToUserBinDir "$work_dir/lemonade"
+	MoveToUserUsrDir "$work_dir/lemonade"
+	CpToUserBinDir "$USR_DIR/lemonade"
 
 	echo "config..."
 	touch $lemo_config_file
