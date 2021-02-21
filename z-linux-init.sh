@@ -5,7 +5,7 @@ set -e
 set -u
 
 
-HOME_DIR=~
+HOME_DIR=$HOME
 WORK_DIR=$HOME_DIR/tmp
 BIN_DIR=$HOME_DIR/bin
 USR_DIR=$HOME_DIR/usr
@@ -229,6 +229,12 @@ alias rm=\"Trash\""
 
 Tree()
 {
+	if type tree > /dev/null 2>&1
+	then
+		echo "OK: tree: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/tree"
 	local log_file="$work_dir/tree.log"
 
@@ -262,6 +268,12 @@ Tree()
 
 AutoJump()
 {
+	if type autojump > /dev/null 2>&1
+	then
+		echo "OK: autojump: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/autojump"
 	local log_file="$work_dir/autojump.log"
 
@@ -291,6 +303,12 @@ AutoJump()
 
 Fzf()
 {
+	if type fzf > /dev/null 2>&1
+	then
+		echo "OK: fzf: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/fzf"
 	local log_file="$work_dir/fzf.log"
 
@@ -318,6 +336,12 @@ Fzf()
 
 Lemonade()
 {
+	if type lemonade > /dev/null 2>&1
+	then
+		echo "OK: lemonade: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/lemonade"
 	local log_file="$work_dir/lemonade.log"
 	local lemo_config_file="$CONFIG_DIR/lemonade.toml"
@@ -354,6 +378,12 @@ line-ending = 'if'
 
 Nvim()
 {
+	if type nvim > /dev/null 2>&1
+	then
+		echo "OK: nvim: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/nvim"
 	local log_file="$work_dir/nvim.log"
 
@@ -386,6 +416,12 @@ Nvim()
 
 VimPlug()
 {
+	if [ -e $CONFIG_DIR/nvim/init.vim ]
+	then
+		echo "OK: vim-plug: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/nvim_config"
 	local log_file="$work_dir/nvim_config.log"
 
@@ -432,6 +468,12 @@ VimPlug()
 
 Tmux()
 {
+	if type tmux > /dev/null 2>&1
+	then
+		echo "OK: tmux: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/tmux"
 	local log_file="$work_dir/tmux.log"
 
@@ -461,6 +503,12 @@ Tmux()
 
 TmuxPlug()
 {
+	if [ -e $HOME_DIR/.tmux.conf ]
+	then
+		echo "OK: vim-plug: Already Existed"
+		return 0
+	fi
+
 	local work_dir="$WORK_DIR/tmux_config"
 	local log_file="$work_dir/tmux_config.log"
 
