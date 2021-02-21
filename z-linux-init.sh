@@ -82,13 +82,6 @@ InitUserEnv()
 #
 # Utils
 #
-GetSSHIP()
-{
-	pts_pid=$(who -a | rg \$(ps -ef | rg sshd | rg liyihang@ | awk -F '@' '{printf $2}') | awk '{printf $8}' | sed 's/[()]//g')
-	echo $pts_pid
-}
-
-
 RelocateFD()
 {
 	f=${1:-}
@@ -107,7 +100,7 @@ RelocateFD()
 
 GetSSHIP()
 {
-	pts_pid=$(who -a | rg $(ps -ef | rg sshd | rg liyihang@ | awk -F '@' '{printf $2}') | awk '{printf $8}' | sed 's/[()]//g')
+	pts_pid=$(who -a | rg $(ps -ef | rg sshd | rg liyihang@ | head -n 1 | awk -F '@' '{printf $2}') | awk '{printf $8}' | sed 's/[()]//g')
 	echo $pts_pid
 }
 
@@ -182,7 +175,7 @@ ExportEnvConstVariable()
 {
 	local content="
 export SDL_VIDEO_X11_VISUALID=0x22
-export SSHIP=\$(who -a | rg \$(ps -ef | rg sshd | rg liyihang@ | awk -F '@' '{printf \$2}') | awk '{printf \$8}' | sed 's/[()]//g')
+export SSHIP=\$(who -a | rg \$(ps -ef | rg sshd | rg liyihang@ | head -n 1 | awk -F '@' '{printf \$2}') | awk '{printf \$8}' | sed 's/[()]//g')
 export DISPLAY=\$SSHIP:0"
 
 	WriteToBashrc "$content"
