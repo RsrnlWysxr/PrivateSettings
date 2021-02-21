@@ -531,6 +531,77 @@ TmuxPlug()
 	echo "OK: tmux-plug"
 }
 
+Tags()
+{
+	if [ -e $BIN_DIR/ctags ] && [ -e $BIN_DIR/gtags ]
+	then
+		echo "OK: tags: Already Existed"
+		return 0
+	fi
+	
+	local work_dir="$WORK_DIR/ctags"
+	local log_file="$work_dir/ctags.log"
+
+	local url="https://github.com/universal-ctags/ctags.git"
+	local pkg="ctags"
+
+	mkdir $work_dir
+	cd $work_dir
+
+	RelocateFD $log_file
+
+	echo "ctags download..."
+	git clone $url 
+	MoveToUserUsrDir "$work_dir/$pkg"
+
+	echo "ctags make..."
+	cd $USR_DIR/$pkg
+	./autogen.sh
+	./configure --prefix $HOME_DIR
+	make
+
+	echo "ctags install..."
+	make install
+
+	RelocateFD
+	echo "OK: tags"
+
+	
+	local work_dir="$WORK_DIR/gtags"
+	local log_file="$work_dir/gtags.log"
+
+	local url="http://tamacom.com/global/global-6.6.3.tar.gz"
+	local pkg="global-6.6.3"
+
+	mkdir $work_dir
+	cd $work_dir
+
+	RelocateFD $log_file
+
+	echo "gtags download..."
+	curl -LJO $url
+	tar -zxvf "$pkg.tar.gz"
+	MoveToUserUsrDir "$work_dir/$pkg"
+
+	echo "gtags make..."
+	cd $USR_DIR/$pkg
+	./configure --prefix $HOME_DIR --with-universal-ctags=$BIN_DIR/ctags
+	make
+
+	echo "gtags install..."
+	make install
+
+	echo "config..."
+	local config_content="
+export GTAGSCONF=$HOME_DIR/share/gtags/gtags.conf"
+	WriteToBashrc "$config_content"
+
+	RelocateFD
+	echo "OK: gtags"
+}
+
+
+
 
 InitRunEnv $*
 CheckSysEnv
@@ -554,6 +625,8 @@ ExtendRawFunction
 ( Tmux ) &
 
 ( TmuxPlug )&
+
+( Tags )&
 
 wait
 
