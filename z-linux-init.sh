@@ -408,6 +408,8 @@ Nvim()
 
 	echo "install dependency: python3 pkg pynvim..."
 	python3.7 -m pip install --user --upgrade pynvim
+	python3.7 -m pip install --user --upgrade pygments
+	pip install --user --upgrade pygments
 
 	RelocateFD
 	echo "OK: nvim"

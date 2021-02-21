@@ -120,9 +120,6 @@ let g:session_directory = '~/vim-session'
 let g:session_autosave = "yes"
 let g:session_default_to_last = 1
 
-" LeaderF
-let g:Lf_ShowDevIcons = 0
-
 " python-indent
 let g:python_pep8_indent_searchpair_timeout = 20
 
@@ -450,7 +447,8 @@ autocmd User CocLocationsChange CocList --auto-preview --normal location
 
 "
 " LeaderF
-"
+" 
+let g:Lf_ShowDevIcons = 0
 let g:Lf_HideHelp = 1
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PopupPosition = [15, 0]
@@ -474,7 +472,7 @@ let g:Lf_ShortcutF = "<leader>fl"
 let g:Lf_UseCache = 0
 
 let g:Lf_Gtagslabel = 'native-pygments'
-let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+let g:Lf_Gtagsconf = '/home/liyihang/share/gtags/gtags.conf'
 
 noremap <leader>bl :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>ll :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
