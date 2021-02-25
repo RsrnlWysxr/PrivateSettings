@@ -4,6 +4,7 @@
   "coc.preferences.formatOnSaveFiletypes":[
 	  "python"
   ],
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
 
   "python.linting.flake8Enabled": true,
   "python.linting.flake8Args": [
