@@ -190,6 +190,10 @@ ExtendRawFunction()
 LSAfterCD()
 {
 	\\\cd \$1
+	if [ \$? != 0 ]
+	then
+		return
+	fi
 	ls
 }
 
