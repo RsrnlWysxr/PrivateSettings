@@ -1,3 +1,4 @@
+
 let g:polyglot_disabled = ['autoindent', 'sensible']
 " Plug Manage
 call plug#begin()
@@ -48,6 +49,7 @@ Plug 'kshenoy/vim-signature'
 
 " 语法高亮
 Plug 'sheerun/vim-polyglot'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 
 " 主题
 Plug 'sainnhe/gruvbox-material'
@@ -61,17 +63,32 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-bookmark', 'coc-python', 'coc-snippets', 'coc-yank']
-
+let g:coc_global_extensions = ['coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-python', 'coc-snippets', 'coc-yank']
 
 "
 " Plug Setup
 "
 
+" cxx_hl
+let g:lsp_cxx_hl_use_text_props = 1
+
 " debug
 let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
 
 " airline
+function! StatusCocCurrentFunction()
+	return "    👻 " . get(b:,'coc_current_function','')
+endfunction
+
+call airline#parts#define_function('StatusCocCurrentFunction', 'StatusCocCurrentFunction')
+let g:airline_section_d = airline#section#create(['StatusCocCurrentFunction'])
+
+
+let g:airline#extensions#default#layout = [
+  \ [ 'a', 'b', 'c', 'd'],
+  \ [ 'x', 'y', 'z', 'error', 'warning' ]
+  \ ]
+
 let g:airline_extensions = ['tabline', 'hunks', 'coc']
 let g:airline_highlighting_cache = 1
 
@@ -139,7 +156,7 @@ iabbrev sefl self
 "
 " Set
 "
-set updatetime=100
+set updatetime=300
 set nobackup
 set nowritebackup
 
@@ -287,6 +304,7 @@ function! ExecuteShellCmdAndAutoClose(cmd)
 	exe "FloatermNew --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 " . expand("cd &&") . expand(a:cmd)
 endfunction
 
+
 highlight Floaterm guibg=None
 highlight FloatermBorder guibg=None guifg=#7DAEA3
 nnoremap <silent><nowait> <leader>to :FloatermNew! --height=0.4 --width=0.4 --wintype=floating --name=nullptr --position=bottomright --autoclose=1 cd<cr>
@@ -430,7 +448,10 @@ nmap <silent><nowait> gr <Plug>(coc-references)
 nmap <silent><nowait> <leader>rn <Plug>(coc-rename)
 nmap <silent><nowait> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
 nmap <silent><nowait> <leader>cf <Plug>(coc-fix-current)
-nmap <silent> <leader>yl  :<C-u>CocList -A --normal yank<cr>
+nmap <silent><nowait> <leader>yl :<C-U>CocList -A --normal yank<CR>
+nmap <silent><nowait> <leader>tl :<C-U>CocList -A --normal outline<CR>
+nmap <silent><nowait> <leader>fs :<C-U>CocCommand clangd.switchSourceHeader<CR>
+					
 
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -444,16 +465,13 @@ endif
 let g:coc_enable_locationlist = 0
 autocmd User CocLocationsChange CocList --auto-preview --normal location
 
-
 "
 " LeaderF
-" 
 let g:Lf_ShowDevIcons = 0
 let g:Lf_HideHelp = 1
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PopupPosition = [15, 0]
 let g:Lf_PopupPreviewPosition = 'bottom'
-let g:Lf_PreviewCode = 0
 let g:Lf_PreviewResult = {
 		\ 'File': 0,
 		\ 'Buffer': 0,
@@ -489,12 +507,6 @@ nnoremap gR :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cwor
 noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
 noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
-"
-" bookmark
-"
-nnoremap mm :CocCommand bookmark.annotate<CR>
-nnoremap <leader>ml :<C-U><C-R>=printf("CocList --auto-preview bookmark")<CR><CR>
-
 " 
 " Debug
 "
@@ -512,6 +524,7 @@ nnoremap <leader>pw :VimspectorWatch
 "
 " Svn
 "
+let g:signify_sign_change_delete = '_'
 nmap <leader>vr :w<cr>:SignifyHunkUndo<cr>
 nmap <leader>vl :SignifyHunkDiff<cr>
 nmap <leader>vn <plug>(signify-next-hunk)
@@ -532,3 +545,4 @@ nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 if filereadable(".vimrc.local")
 	source .vimrc.local
 endif
+
