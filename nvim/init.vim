@@ -436,7 +436,32 @@ vmap <leader>cc gc
 "
 " goto
 "
-nmap <silent><nowait> gd <Plug>(coc-definition)
+function! s:GotoDefinition() abort
+  " 配合Ctrl+t 实现函数跳转栈
+  let l:current_tag = expand('<cWORD>')
+
+  let l:current_position    = getcurpos()
+  let l:current_position[0] = bufnr()
+
+  let l:current_tag_stack = gettagstack()
+  let l:current_tag_index = l:current_tag_stack['curidx']
+  let l:current_tag_items = l:current_tag_stack['items']
+
+  if CocAction('jumpDefinition') && (match(l:current_tag, '^\u.*$') != -1 || match(l:current_tag, '(.*)') != -1)
+    let l:new_tag_index = l:current_tag_index + 1
+    let l:new_tag_item = [#{tagname: l:current_tag, from: l:current_position}]
+    let l:new_tag_items = l:current_tag_items[:]
+    if l:current_tag_index <= len(l:current_tag_items)
+      call remove(l:new_tag_items, l:current_tag_index - 1, -1)
+    endif
+    let l:new_tag_items += l:new_tag_item
+
+    call settagstack(winnr(), #{curidx: l:new_tag_index, items: l:new_tag_items}, 'r')
+  endif
+endfunction
+
+" nmap <silent><nowait> gd <Plug>(coc-definition)
+nmap <silent><nowait> gd :call <SID>GotoDefinition()<CR>
 nmap <silent><nowait> gy <Plug>(coc-type-definition)
 nmap <silent><nowait> gi <Plug>(coc-implementation)
 nmap <silent><nowait> gr <Plug>(coc-references)
@@ -462,8 +487,8 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
-let g:coc_enable_locationlist = 0
-autocmd User CocLocationsChange CocList --auto-preview --normal location
+" let g:coc_enable_locationlist = 0
+" autocmd User CocLocationsChange CocList --auto-preview --normal location
 
 "
 " LeaderF
