@@ -446,7 +446,7 @@ function! s:GotoDefinition() abort
   let l:current_tag_index = l:current_tag_stack['curidx']
   let l:current_tag_items = l:current_tag_stack['items']
 
-  if CocAction('jumpDefinition') && (match(l:current_tag, '^\u.*$') != -1 || match(l:current_tag, '(.*)') != -1)
+  if CocAction('jumpDefinition') && (match(l:current_tag, '^\u.*$') != -1 || match(l:current_tag, '(') != -1)
     let l:new_tag_index = l:current_tag_index + 1
     let l:new_tag_item = [#{tagname: l:current_tag, from: l:current_position}]
     let l:new_tag_items = l:current_tag_items[:]
