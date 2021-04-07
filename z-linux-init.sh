@@ -498,6 +498,9 @@ Tmux()
 	echo "install..."
 	CpToUserBinDir "$USR_DIR/$pkg/tmux"
 
+	echo "alias..."
+	WriteToBashrc "alias tmux=\"tmux -u\""
+
 	RelocateFD
 	echo "OK: tmux"
 }
