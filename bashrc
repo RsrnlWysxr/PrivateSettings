@@ -84,31 +84,9 @@ fi
 # colored GCC warnings and errors
 # export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-cd_ll()
-{
-	\cd $1
-	ls
-}
-
-trash()
-{
-	TRASH=~/.trash ;
-	if [ ! -d "$TRASH" ]; then
-		echo "mkdir trash" ;
-		mkdir $TRASH ;
-	fi
-
-	str1=$@ ;
-	str2=${str1##-* } ;
-	mv $str2 ~/.trash/ ;
-}
-
 # some more ls aliases
 alias ll='ls -la'
 alias ps='ps -elf'
-alias cd='cd_ll'
-alias rm='trash'
-alias v='nvim'
 #alias la='ls -A'
 #alias l='ls -CF'
 
