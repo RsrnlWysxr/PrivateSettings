@@ -1,4 +1,3 @@
-
 let g:polyglot_disabled = ['autoindent', 'sensible']
 " Plug Manage
 call plug#begin()
@@ -73,7 +72,7 @@ let g:coc_global_extensions = ['coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-
 let g:lsp_cxx_hl_use_text_props = 1
 
 " debug
-let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools']
 
 " airline
 function! StatusCocCurrentFunction()
@@ -535,16 +534,15 @@ noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 " 
 " Debug
 "
-nnoremap <silent><nowait> <leader>pp :call vimspector#Continue()<CR>
-nnoremap <silent><nowait> <leader>pc :call vimspector#Reset()<CR>
+nnoremap <silent><nowait> <leader>dr :call vimspector#Continue()<CR>
+nnoremap <silent><nowait> <leader>dR :call vimspector#Reset()<CR>
 nmap <A-1> :call vimspector#Continue()<CR>
 nmap <A-2> :call vimspector#StepOver()<CR>
 nmap <A-3> :call vimspector#StepInto()<CR>
 nmap <A-4> :call vimspector#StepOut()<CR>
 nmap <A-5> :call vimspector#RunToCursor()<CR>
-nnoremap <silent><nowait> <leader>ps :call vimspector#ToggleBreakpoint()<CR>
-nnoremap <silent><nowait> <leader>pd :call vimspector#ToggleBreakpoint(
-nnoremap <leader>pw :VimspectorWatch 
+nnoremap <silent><nowait> <leader>bs :call vimspector#ToggleBreakpoint()<CR>
+nnoremap <leader>ew :VimspectorWatch 
 
 "
 " Svn
