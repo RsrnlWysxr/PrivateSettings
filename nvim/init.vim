@@ -76,7 +76,8 @@ let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools']
 
 " airline
 function! StatusCocCurrentFunction()
-	return "    👻 " . get(b:,'coc_current_function','')
+	"return "    👻 " . get(b:,'coc_current_function','')
+	return " 👻 "
 endfunction
 
 call airline#parts#define_function('StatusCocCurrentFunction', 'StatusCocCurrentFunction')
@@ -132,7 +133,7 @@ noremap <silent><nowait> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
 noremap <silent><nowait> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
 
 " session
-let g:session_directory = '~/vim-session'
+let g:session_directory = '~/.vim-session'
 let g:session_autosave = "yes"
 let g:session_default_to_last = 1
 
@@ -155,7 +156,7 @@ iabbrev sefl self
 "
 " Set
 "
-set updatetime=300
+set updatetime=250
 set nobackup
 set nowritebackup
 
@@ -512,6 +513,7 @@ let g:Lf_PreviewInPopup = 1
 let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_ShortcutF = "<leader>fl"
 let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
 
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_Gtagsconf = '/home/liyihang/share/gtags/gtags.conf'
