@@ -33,6 +33,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'rhysd/clever-f.vim'
+Plug 'liuchengxu/vista.vim'
 
 " session保存
 Plug 'xolox/vim-misc'
@@ -45,6 +46,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'kshenoy/vim-signature'
+Plug 'ryanoasis/vim-devicons'
 
 " 语法高亮
 Plug 'sheerun/vim-polyglot'
@@ -62,11 +64,14 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-python', 'coc-snippets', 'coc-yank']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-python', 'coc-snippets', 'coc-yank']
 
 "
 " Plug Setup
 "
+
+" explorer
+nmap <A-1> :CocCommand explorer<cr>
 
 " cxx_hl
 let g:lsp_cxx_hl_use_text_props = 1
@@ -77,15 +82,15 @@ let g:vimspector_install_gadgets = ['debugpy', 'vscode-cpptools']
 " airline
 function! StatusCocCurrentFunction()
 	"return "    👻 " . get(b:,'coc_current_function','')
-	return " 👻 "
+	return "慢就是快, 少即是多"
 endfunction
 
 call airline#parts#define_function('StatusCocCurrentFunction', 'StatusCocCurrentFunction')
-let g:airline_section_d = airline#section#create(['StatusCocCurrentFunction'])
+let g:airline_section_h = airline#section#create(['StatusCocCurrentFunction'])
 
 
 let g:airline#extensions#default#layout = [
-  \ [ 'a', 'b', 'c', 'd'],
+  \ [ 'a', 'b', 'c', 'h'],
   \ [ 'x', 'y', 'z', 'error', 'warning' ]
   \ ]
 
@@ -105,6 +110,12 @@ let g:EasyMotion_use_smartsign_us = 1  " 1 match 1 and !
 
 " rainbow
 let g:rainbow_active=1
+
+" vista
+nmap <A-2> :Vista!!<cr>
+let g:vista_cursor_delay = 100
+let g:vista_sidebar_position = 'vertical topleft'
+let g:vista_sidebar_width = 45
 
 " clever-f
 let g:clever_f_across_no_line = 1
@@ -165,7 +176,6 @@ set shortmess+=c
 
 
 " 显示
-set ambiwidth=double
 set linespace=8
 " set guicursor=n-v-c:block,i-ci-ve:ver20,r-cr:hor20,o:hor50
 " 		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
@@ -242,6 +252,7 @@ set so=7
 " 持久化undo历史
 set undofile
 set undodir=~/.vim/undodir
+set dir=~/.tmp
 
 " buff
 set hidden
@@ -295,7 +306,6 @@ highligh TermCursor guifg=#7DAEA3 guibg=None
 " float term
 let g:floaterm_title = ""
 let g:floaterm_winblend=1
-let g:floaterm_borderchars=['-', '|', '-', '|', '-', '-', '-', '-']
 let g:floaterm_width = 0.4
 let g:floaterm_height = 0.4
 let g:floaterm_wintype = 'floating'
@@ -393,9 +403,9 @@ endfunction
 " snippets
 "
 vmap <C-j> <Plug>(coc-snippets-select)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
-imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 
 nnoremap <silent><nowait> R :call WinBufSwap()<cr>
@@ -469,14 +479,32 @@ nmap <silent><nowait> gr <Plug>(coc-references)
 "
 " coc
 "
-"
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+nmap <silent><nowait> <leader>kk :<C-U>call <SID>show_documentation()<CR>
 nmap <silent><nowait> <leader>rn <Plug>(coc-rename)
 nmap <silent><nowait> <leader>gg :<C-U><C-R>=printf("CocListResume")<CR><CR>
 nmap <silent><nowait> <leader>cf <Plug>(coc-fix-current)
 nmap <silent><nowait> <leader>yl :<C-U>CocList -A --normal yank<CR>
-nmap <silent><nowait> <leader>tl :<C-U>CocList -A --normal outline<CR>
+nmap <silent><nowait> <leader>ml :<C-U>CocList -A bookmark<CR>
+nmap <silent><nowait> <leader>sl :<C-U>CocList -A --interactive symbols<CR>
 nmap <silent><nowait> <leader>fs :<C-U>CocCommand clangd.switchSourceHeader<CR>
-					
+
+nmap <silent><nowait> <leader>rn <Plug>(coc-diagnostic-next)
+nmap <silent><nowait> <leader>rp <Plug>(coc-diagnostic-prev)
+
+inoremap <silent><expr> <C-j> pumvisible() ? coc#_select_confirm() 
+			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
@@ -487,12 +515,16 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
+" bookmark
+nmap <silent><nowait> <leader>mm :<C-U>CocCommand bookmark.annotate<CR>
+nmap <silent><nowait> <leader>mt :<C-U>CocCommand bookmark.toggle<CR>
+
 " let g:coc_enable_locationlist = 0
 " autocmd User CocLocationsChange CocList --auto-preview --normal location
 
 "
 " LeaderF
-let g:Lf_ShowDevIcons = 0
+let g:Lf_ShowDevIcons = 1
 let g:Lf_HideHelp = 1
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PopupPosition = [15, 0]
@@ -514,20 +546,25 @@ let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_ShortcutF = "<leader>fl"
 let g:Lf_UseCache = 0
 let g:Lf_UseVersionControlTool = 0
+let g:Lf_WildIgnore = {
+		\ 'dir': ['.svn','.git','.hg'],
+		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+		\}
 
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_Gtagsconf = '/home/liyihang/share/gtags/gtags.conf'
 
-noremap <leader>bl :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
 noremap <leader>ll :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 noremap <leader>jj :<C-U><C-R>=printf("Leaderf! rg --recall")<CR><CR>
+
+noremap <leader><C-F> :<C-U><C-R>=printf("Leaderf rg ")<CR><CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR><CR>
 " search visually selected text literally
 xnoremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR><CR>
 
 noremap gj :<C-U><C-R>=printf("Leaderf gtags")<CR><CR>
 noremap gk :<C-U><C-R>=printf("Leaderf! gtags --by-context --auto-jump")<CR><CR>
-" noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>jj :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
 nnoremap gD :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
 nnoremap gR :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
 noremap gn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
@@ -538,11 +575,11 @@ noremap gp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 "
 nnoremap <silent><nowait> <leader>dr :call vimspector#Continue()<CR>
 nnoremap <silent><nowait> <leader>dR :call vimspector#Reset()<CR>
-nmap <A-1> :call vimspector#Continue()<CR>
-nmap <A-2> :call vimspector#StepOver()<CR>
-nmap <A-3> :call vimspector#StepInto()<CR>
-nmap <A-4> :call vimspector#StepOut()<CR>
-nmap <A-5> :call vimspector#RunToCursor()<CR>
+nmap <A-q> :call vimspector#Continue()<CR>
+nmap <A-w> :call vimspector#StepOver()<CR>
+nmap <A-e> :call vimspector#StepInto()<CR>
+nmap <A-r> :call vimspector#StepOut()<CR>
+nmap <A-t> :call vimspector#RunToCursor()<CR>
 nnoremap <silent><nowait> <leader>bs :call vimspector#ToggleBreakpoint()<CR>
 nnoremap <leader>ew :VimspectorWatch 
 
@@ -570,4 +607,3 @@ nnoremap <silent> <A-l> :TmuxNavigateRight<cr>
 if filereadable(".vimrc.local")
 	source .vimrc.local
 endif
-
