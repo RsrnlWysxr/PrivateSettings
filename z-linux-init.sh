@@ -29,6 +29,11 @@ CheckSysEnv()
 	git --version 1>/dev/null
 	tar --version 1>/dev/null
 	rg --version 1>/dev/null
+	autoconf --version 1>/dev/null
+	automake --version 1>/dev/null
+	pkg-config --version 1>/dev/null
+	node --version 1>/dev/null
+	apt-get show libncurses-dev 1>/dev/null
 	python3 --version 1>/dev/null
 	python3 -m pip --version 1>/dev/null
 	
