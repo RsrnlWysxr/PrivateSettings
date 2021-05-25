@@ -28,13 +28,12 @@
     "profiles": {
         "defaults": {
             // Put settings here that you want to apply to all profiles.
-            "fontFace": "Fira Code",
+            "fontFace": "FiraCode NF",
             "fontSize": 11,
             "fontWeight": "extra-light",
-            // "antialiasingMode": "cleartype",  # 会影响连体
             "cursorShape": "filledBox",
             "useAcrylic": true,
-            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/dark-background.png",
+            "backgroundImage": "C:/Users/liyihang/Pictures/Camera Roll/dim-background.png",
             "backgroundImageOpacity": 0.99,
             "acrylicOpacity": 0.99,
             "scrollbarState": "hidden",
