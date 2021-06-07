@@ -535,7 +535,7 @@ TmuxPlug()
 	git clone $url $install_dir
 
 	echo "download and install .tmux.conf..."
-	curl -LJO "https://raw.githubusercontent.com/RsrnlWysxr/PrivateSettings/main/tmux.conf"
+	curl -LJO "https://raw.githubusercontent.com/RsrnlWysxr/PrivateSettings/main/linux/tmux.conf"
 	cp "tmux.conf" "$HOME_DIR/.tmux.conf"
 
 	RelocateFD
