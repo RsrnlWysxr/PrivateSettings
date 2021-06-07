@@ -3,7 +3,6 @@ let g:polyglot_disabled = ['autoindent', 'sensible']
 call plug#begin()
 " 插件平台
 Plug 'neoclide/coc.nvim'
-
 " terminal
 Plug 'voldikss/vim-floaterm'
 
@@ -26,6 +25,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'wellle/targets.vim'
+Plug 'AndrewRadev/linediff.vim'
 
 " 查找
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
@@ -235,19 +235,19 @@ autocmd BufRead *.py
 
 " 代码折叠
 " set foldmethod=syntax
-" set foldmethod=marker
+
 
 " 显示匹配的括号
 " set showmatch
 
-" 高亮所在行
+" 高亮所在
 set cursorline
 
 " 拼写检查
 " set spell
 
 " kj移动留白
-set so=7
+" set so=7
 
 " 持久化undo历史
 set undofile
@@ -331,6 +331,8 @@ nnoremap <Leader>rv :source $MYVIMRC<Cr>
 inoremap jk <Esc>
 tnoremap jk <C-\><C-n>
 tnoremap <Esc> <C-\><C-n>
+nnoremap j gj
+nnoremap k gk
 vnoremap v <Esc>
 nnoremap <Leader>q q
 nnoremap T J
@@ -350,6 +352,8 @@ nmap Y y$
 " Tab/Window
 nmap <silent><nowait> J :bp<CR>
 nmap <silent><nowait> K :bn<CR>
+nmap <silent><nowait> <leader>> 30<C-w>>
+nmap <silent><nowait> <leader>< 30<C-w><
 
 
 function! WinBufSwap()
@@ -358,25 +362,32 @@ function! WinBufSwap()
   let thisline = line(".")
   let thiscol = col(".")
 
-  let lastwin = winnr("#")
-  exec lastwin . " wincmd w"
+  let lastwin = winnr("l")
+  if thiswin == lastwin
+	  let lastwin = winnr("h")
+  endif
+
+  exec lastwin." wincmd w"
 
   let lastbuf = bufnr("%") 
   let lastline = line(".") 
   let lastcol = col(".")
 
-  exec  "buffer ". thisbuf
+  exec "buffer ".thisbuf
   call cursor(thisline, thiscol)
 
-  exec  thiswin ." wincmd w" ."|".
-      \ "buffer ". lastbuf
+  exec thiswin." wincmd w"
+  exec "buffer ".lastbuf
   call cursor(lastline, lastcol)
 
 endfunction
 
 function! WinBufMove()
   let thiswin = winnr()
-  let lastwin = winnr("#")
+  let lastwin = winnr("l")
+  if thiswin == lastwin
+	  let lastwin = winnr("h")
+  endif
 
   let thisbuf = bufnr("%")
   let thisline = line(".")
@@ -416,9 +427,8 @@ nnoremap Q ZZ
 function! NewVs()
 	exe (winwidth(0) * 3/5) . " vs"
 endfunction
-" nnoremap <leader>ws :80vs<cr><C-w>l
 nnoremap <silent><nowait> <leader>wk :call NewVs()<Cr>
-" set winfixwidth 
+set winfixwidth 
 
 
 
@@ -499,8 +509,8 @@ nmap <silent><nowait> <leader>ml :<C-U>CocList -A bookmark<CR>
 nmap <silent><nowait> <leader>sl :<C-U>CocList -A --interactive symbols<CR>
 nmap <silent><nowait> <leader>fs :<C-U>CocCommand clangd.switchSourceHeader<CR>
 
-nmap <silent><nowait> <leader>rn <Plug>(coc-diagnostic-next)
-nmap <silent><nowait> <leader>rp <Plug>(coc-diagnostic-prev)
+nmap <silent><nowait> <leader>en <Plug>(coc-diagnostic-next)
+nmap <silent><nowait> <leader>ep <Plug>(coc-diagnostic-prev)
 
 inoremap <silent><expr> <C-j> pumvisible() ? coc#_select_confirm() 
 			\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
@@ -587,10 +597,11 @@ nnoremap <leader>ew :VimspectorWatch
 " Svn
 "
 let g:signify_sign_change_delete = '_'
-nmap <leader>vr :w<cr>:SignifyHunkUndo<cr>
-nmap <leader>vl :SignifyHunkDiff<cr>
-nmap <leader>vn <plug>(signify-next-hunk)
-nmap <leader>vp <plug>(signify-prev-hunk)
+nnoremap <leader>vr :w<cr>:SignifyHunkUndo<cr>
+nnoremap <leader>vl :SignifyHunkDiff<cr>
+nnoremap <leader>vn <plug>(signify-next-hunk)
+nnoremap <leader>vp <plug>(signify-prev-hunk)
+nnoremap <silent><nowait> <leader>vc :VCStatus<cr>M .py
 
 "
 " tmux
