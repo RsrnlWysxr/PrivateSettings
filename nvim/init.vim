@@ -91,7 +91,7 @@ let g:airline_section_h = airline#section#create(['StatusCocCurrentFunction'])
 
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c', 'h'],
-  \ [ 'x', 'y', 'z', 'error', 'warning' ]
+  \ [ 'x', 'y', 'error', 'warning' ]
   \ ]
 
 let g:airline_extensions = ['tabline', 'hunks', 'coc']
@@ -185,6 +185,7 @@ set linespace=8
 set number
 set relativenumber
 set signcolumn=yes
+set so=17
 
 " 语法高亮
 syntax enable
