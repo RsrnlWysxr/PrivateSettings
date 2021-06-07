@@ -598,11 +598,11 @@ nnoremap <leader>ew :VimspectorWatch
 " Svn
 "
 let g:signify_sign_change_delete = '_'
-nnoremap <leader>vr :w<cr>:SignifyHunkUndo<cr>
-nnoremap <leader>vl :SignifyHunkDiff<cr>
-nnoremap <leader>vn <plug>(signify-next-hunk)
-nnoremap <leader>vp <plug>(signify-prev-hunk)
-nnoremap <silent><nowait> <leader>vc :VCStatus<cr>M .py
+nmap <leader>vr :w<cr>:SignifyHunkUndo<cr>
+nmap <leader>vl :SignifyHunkDiff<cr>
+nmap <leader>vn <plug>(signify-next-hunk)
+nmap <leader>vp <plug>(signify-prev-hunk)
+nmap <silent><nowait> <leader>vc :VCStatus<cr>M .py
 
 "
 " tmux
