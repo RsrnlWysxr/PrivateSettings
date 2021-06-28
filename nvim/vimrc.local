@@ -1,10 +1,11 @@
-let g:Lf_RootMarkers = []
 let g:Lf_UseVersionControlTool = 0
+let g:Lf_GtagsAutoGenerate = 1
 let g:Lf_GtagsSource = 2
 let g:Lf_GtagsfilesCmd = {
-		\ 'default': "rg --no-messages --files | rg '^(Server|Universal).*(.py)$' | rg -v '/(Data|Lib|PyCharmEditor)/'"
+		\ '.git': 'git ls-files --recurse-submodules',
+		\ '.hg': 'hg files',
+		\ 'default': "rg --files | rg '^(Server|Universal)'"
 		\}
-
 let g:Lf_WildIgnore = {
 		\ 'dir': ['.svn','.git','Client', 'UTools', 'Lib'],
 		\ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
@@ -13,8 +14,6 @@ let g:Lf_WildIgnore = {
 "
 " g108 server
 "
-nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd ~/projects/workspace && sh kill_serv.sh && sh run_serv.sh")<cr>
-nnoremap <silent> <leader>sl :call ExecuteShellCmdAndAutoClose("cd ~/projects/workspace && sh rl_serv.sh")<cr>
+nnoremap <silent> <leader>ss :call ExecuteShellCmdAndAutoClose("cd workspace && sh kill_serv.sh && sh run_serv.sh")<cr>
+nnoremap <silent> <leader>sl :call executeshellcmdandautoclose("cd workspace && sh rl_serv.sh")<cr>
 
-noremap <silent> <A-d> :call ExecuteShellCmdAndAutoClose("cd ~/projects/workspace/src && sh Server/Debug/LittleYellowDuck/AllDucksDive.sh")<cr>
-noremap <silent> <A-b> :call ExecuteShellCmdAndAutoClose("cd ~/projects/workspace/src && sh Server/Debug/LittleYellowDuck/AllDucksBubble.sh")<cr>
