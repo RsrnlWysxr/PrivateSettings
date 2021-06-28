@@ -1,4 +1,5 @@
-let g:polyglot_disabled = ['autoindent', 'sensible']
+set nocompatible
+"
 " Plug Manage
 call plug#begin()
 " 插件平台
@@ -44,19 +45,21 @@ Plug 'xolox/vim-session'
 Plug 'vim-airline/vim-airline'
 Plug 'Yggdroot/indentLine'
 Plug 'luochen1990/rainbow'
-Plug 'terryma/vim-smooth-scroll'
 Plug 'kshenoy/vim-signature'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'  和airline一起, 太卡了
 
 " 语法高亮
-Plug 'sheerun/vim-polyglot'
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'mtdl9/vim-log-highlighting'
+Plug 'uarun/vim-protobuf'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+" Plug 'sheerun/vim-polyglot'  永远不开, 需要高亮就看看这个的网站就行
 
 " 主题
 Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
-set nocompatible
 
 set termguicolors
 set background=dark
@@ -64,7 +67,7 @@ let g:gruvbox_material_transparent_background=1
 colorscheme gruvbox-material
 
 " Coc-extension
-let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-python', 'coc-snippets', 'coc-yank']
+let g:coc_global_extensions = ['coc-explorer', 'coc-pairs', 'coc-highlight', 'coc-clangd', 'coc-python', 'coc-json', 'coc-vimlsp', 'coc-sh', 'coc-snippets', 'coc-yank']
 
 "
 " Plug Setup
@@ -111,6 +114,9 @@ let g:EasyMotion_use_smartsign_us = 1  " 1 match 1 and !
 " rainbow
 let g:rainbow_active=1
 
+" semshi
+let g:semshi#error_sign = 0
+
 " vista
 nmap <A-2> :Vista!!<cr>
 let g:vista_cursor_delay = 100
@@ -140,8 +146,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 autocmd BufRead * highlight CurrentWord guibg=#05354E
 
 " smooth-scroll
-noremap <silent><nowait> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
-noremap <silent><nowait> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
+" noremap <silent><nowait> <c-u> :call smooth_scroll#up(&scroll, 0, 9)<cr>
+" noremap <silent><nowait> <c-d> :call smooth_scroll#down(&scroll, 0, 9)<cr>
 
 " session
 let g:session_directory = '~/.vim-session'

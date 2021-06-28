@@ -6,6 +6,12 @@
   ],
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
 
+  "explorer.icon.enableVimDevicons": true,
+
+  "list.normalMappings": {
+	  "Q": "do:exit"
+  },
+
   "python.linting.flake8Enabled": true,
   "python.linting.flake8Args": [
 	"--ignore=W191,E501,F811,E402,E722,W503,F401"
@@ -25,6 +31,7 @@
 	  "-l",
 	  "120",
 	  "--force-exclude",
-	  "src/Server/Core|src/Server/Data|src/Server/Debug|src/Server/Hotfix|src/Server/InspectorSDK|src/Server/Lib|src/Server/ServerCommom|src/Server/Tools|src/Univeral/SunshineSDK",
-  ]
+	  "src/Server/Core|src/Server/Data|src/Server/Debug|src/Server/Hotfix|src/Server/InspectorSDK|src/Server/Lib|src/Server/ServerCommom|src/Server/Tools|src/Univeral/SunshineSDK"
+  ],
+  "clangd.path": "/home/liyihang/.config/coc/extensions/coc-clangd-data/install/11.0.0/clangd_11.0.0/bin/clangd"
 }
